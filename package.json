@@ -1,0 +1,41 @@
+{
+  "name": "reactproject",
+  "version": "1.0.0",
+  "description": "MERN",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "client": "npm start --prefix client",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev0": "nodemon server.js",
+    "dev": "concurrently \"npm run dev0\" \" npm run client\""
+  },
+  "keywords": [
+    "react",
+    "mongo",
+    "node",
+    "express"
+  ],
+  "author": "Onengiye Richard",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.0.1",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "gravatar": "^1.6.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.2.9",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "prop-types": "^15.6.2",
+    "validator": "^10.7.0",
+    "winston": "^3.0.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.0",
+    "nodemon": "^1.18.3"
+  }
+}
