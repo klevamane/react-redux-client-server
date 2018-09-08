@@ -10,7 +10,9 @@ import FooterComponent from './components/layout/Footer';
 import LandingComponent from './components/layout/Landing';
 import RegisterComponent from './components/auth/Register';
 import LoginComponent from './components/auth/Login';
+import Dashboard from './components/dashboard/Dashboard';
 import store from './store';
+import { clearCurrentProfile } from './actions/profileActions';
 
 // Check for token in local storage
 // This is to ensure that a user stays logged In
@@ -25,10 +27,10 @@ if(localStorage.jwtToken) {
   // check for expired token
   const currentTime = Date.now() / 1000; //millisecons
   if(decoded.exp < currentTime) {
+    // logout user  
     store.dispatch(logoutUser());
-   
-    // TODO: clear the current profile
-    
+    // clear the current profile upon user logout ot time expiry
+    store.dispatch(clearCurrentProfile());
     window.location.href = '/login';
   }
 }
@@ -44,6 +46,7 @@ class App extends Component {
         <div className="container">
         <Route exact path="/register" component={RegisterComponent} />
         <Route exact path="/login" component={LoginComponent} />
+        <Route exact path="/dashboard" component={Dashboard} />
         </div>
         <FooterComponent />
       </div>
