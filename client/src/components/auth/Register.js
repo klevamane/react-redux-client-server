@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom'; // use withrouter to route from within an action
 import { connect } from 'react-redux'; // connect is used to connect a react compoent to redux
 import { registeruser } from '../../actions/authActions'; // register user action
 
@@ -33,18 +33,31 @@ class Register extends Component {
             password: this.state.password,
             password2: this.state.password2
         };
-        this.props.registeruser(newUser)
-        
-    // axios.post('/api/users/register', newUser) // remember that we have a proxyscript implicitly adding the httplocalhos:3000
-    //     .then((response) => {
-    //         console.log(response.data);
-    //         // set the errors object to recieve errors
-    //         // remember set state makes the dom reload the component part / component
-    //     }).catch(err => this.setState({ errors: err.response.data }));
+        // we add this.props.history her so it can be accessed within the register action
+        this.props.registeruser(newUser, this.props.history)
+    }
+
+  componentDidMount() {
+    // redirect the user to the dashboard
+    // if the user is already authenticated and goes to the login page/ component
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+  }
+
+    // it takes in a parameter next props
+    componentWillReceiveProps(nextProps) {
+      // we can test for certain properties
+      // lets test for the errors propery
+      if(nextProps.errors) {
+        // if there are errors in the application state
+        // we take it and set it to the component state
+        this.setState({ errors: nextProps.errors});
+      }
     }
   render() {
-    const {errors} = this.state;
-    const { user } = this.props.auth;
+    // now that errors in the component state can be accessed here
+    const { errors } = this.state;
     return (
         <div className ="register">
         <div className="container">
@@ -86,12 +99,14 @@ class Register extends Component {
 
 Register.propTypes = {
   registeruser: PropTypes.func.isRequired, // register user is an action but its also a property
-  auth: PropTypes.object.isRequired 
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 }
 
 // in order to use the state in the component
-const mapStateToProps =(state) => ({
-  auth: state.auth // This state.auth comes from the root reducer ie the index.js in the reducer folder
+const mapStateToProps = state => ({
+  auth: state.auth, // This state.auth comes from the root reducer ie the index.js in the reducer folder
+  errors: state.errors // if there are anny errors it's going to be accessed here
 });
 
 // because we now want to connect our component to redux we, we have to now use the connect() function
@@ -100,7 +115,8 @@ const mapStateToProps =(state) => ({
 
 // The first parameter is usually null, but if a mapStateToProps exist then it should be placed there
 // The second parameter is an object where we can map our actions
-export default connect(mapStateToProps, { registeruser })(Register);
+// we wrap the register component with withRouter 
+export default connect(mapStateToProps, { registeruser })(withRouter(Register));
 
 // instead of exporting just the componenet as when it was created,
 // because we are using connect this is how it will be
