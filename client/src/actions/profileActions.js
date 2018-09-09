@@ -34,3 +34,19 @@ export const clearCurrentProfile = () => {
         type: CLEAR_CURRENT_PROFILE
     }
 }
+
+
+// Create Profile
+// We use history here because if we want to re-direct we use withRouter in our component
+// and then pass in this.props.history
+// so that we can re-direct, because once we create the profile we simply want to redirect
+export const createProfile = (profileData, history) => dispatch => {
+    axios
+        .post('/api/profile', profileData)
+        .then(res => history.push('/dashboard'))
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }
+        ))
+}
