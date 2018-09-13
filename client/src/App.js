@@ -16,6 +16,7 @@ import { clearCurrentProfile } from "./actions/profileActions";
 
 import PrivateRoute from "./components/commons/privateRoute";
 import CreateProfile from './components/create-profile/CreateProfile';
+import EditProfile from "./components/edit-profile/EditProfile";
 
 
 // Check for token in local storage
@@ -55,6 +56,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/create-profile" component={CreateProfile}/>
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/edit-profile" component={EditProfile}/>
               </Switch>
             </div>
             <FooterComponent />
