@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE } from './types';
+import { GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE, SET_CURRENT_USER } from './types';
 
 // Get current profile 
 // it takes in no argument
@@ -49,4 +49,21 @@ export const createProfile = (profileData, history) => dispatch => {
             payload: err.response.data
         }
         ))
+}
+
+// Delete Account & profile 
+// remember that from the back end it deletes the user account cascading the profile also
+export const deleteAccount = () => dispatch => {
+    if(window.confirm('Are you sure you want to delete your account?')) {
+        axios
+            .delete('/api/profile')
+            .then(res => dispatch({
+                type: SET_CURRENT_USER, // set current user is being called which is in the auth reducer
+                payload: {} // sets the auth user to nothing
+            }))
+            .catch(error => dispatch({
+                type: GET_ERRORS,
+                payload: error.res.data
+            }))
+    }
 }
