@@ -7,7 +7,7 @@ const SelectListGroup = ({ name, value, error, info, onChange, options }) => {
     <option value={option.value} key={option.label}>
       {option.label}
     </option>
-  ));
+  )); 
   return (
     <div className="form-group">
       <select

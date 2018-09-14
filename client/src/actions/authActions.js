@@ -8,8 +8,7 @@ import jwt_decode from 'jwt-decode';
 export const registeruser = (userData, history) => dispatch => {
   axios
     .post('/api/users/register', userData) // remember that we have a proxyscript implicitly adding the httplocalhos:3000
-    .then(res => history.push('/login')) // using history here beause we have already implemented it in the register component
-
+    .then(res => history.push('/login')) // using history here because we have already implemented it in the register component
 
     // set the errors object to recieve errors
       // redux thunk enables use to dispatch the error to the reducer ie the errors reducer we created or will create
@@ -26,7 +25,7 @@ export const registeruser = (userData, history) => dispatch => {
 };
 
 
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData, history) => dispatch => {
     axios.post('/api/users/login', userData)
         .then(res => {
             // save to local storage // Disclaimer its better to use session storage to store these data but we'll use localStorage here
@@ -40,6 +39,7 @@ export const loginUser = userData => dispatch => {
             const decoded = jwt_decode(token);
             // set current user
            dispatch(setCurrentUser(decoded));
+           return history.push('/dashboard');
         })
         .catch(err => dispatch({
             type: GET_ERRORS,

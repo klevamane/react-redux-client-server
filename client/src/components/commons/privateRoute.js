@@ -8,13 +8,13 @@ const privateRoute =  ({component: Component, auth, ...rest}) => (
   {...rest}
   render = {props => 
     // check to see if authenticated, if true then load the component else redirect to login
-    auth.isAuthenticated === true ? (<Component {...props} />) : (<Redirect to="/login" / >)}
+    auth.isAuthenticated === true ? (<Component {...props} />) : (<Redirect to="/login" />)}
   />
 );
   
 
 
-privateRoute.propTypes = {
+privateRoute.propTypes = { 
   auth: PropTypes.object.isRequired
 }
 

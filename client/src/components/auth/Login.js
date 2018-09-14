@@ -27,15 +27,15 @@ class Login extends Component {
       password: this.state.password
     };
 // Using the mapStateToProps to access the state method loginUser as props in the component
-    this.props.loginUser(userData);
+    this.props.loginUser(userData, this.props.history);
   }
 
   componentDidMount() {
     // redirect the user to the dashboard
     // if the user is already authenticated and goes to the login page/ component
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/dashboard');
-    }
+    // if (this.props.auth.isAuthenticated) {
+    //   this.props.history.push('/dashboard');
+    // }
   }
   
   componentWillReceiveProps(nextProps) {
@@ -46,6 +46,10 @@ class Login extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+    console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>NEXT>>>>>>>>>>${JSON.stringify(nextProps)}`);
+    // if (nextProps.auth.isAuthenticated) {
+    //   this.props.history.push('/dashboard');
+    // }
   }
 
 
@@ -99,4 +103,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps,{ loginUser })(Login);
+export default connect(mapStateToProps,{ loginUser })(withRouter(Login));

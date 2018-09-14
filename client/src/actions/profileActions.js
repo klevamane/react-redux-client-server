@@ -33,7 +33,7 @@ export const clearCurrentProfile = () => {
     return {
         type: CLEAR_CURRENT_PROFILE
     }
-}
+};
 
 
 // Create Profile
@@ -49,7 +49,7 @@ export const createProfile = (profileData, history) => dispatch => {
             payload: err.response.data
         }
         ))
-}
+};
 
 // Delete Account & profile 
 // remember that from the back end it deletes the user account cascading the profile also
@@ -66,4 +66,39 @@ export const deleteAccount = () => dispatch => {
                 payload: error.res.data
             }))
     }
+};
+
+export const addExperience = (expData, history) => dispatch => {
+    axios
+        .post('/api/profile/experience', expData)
+        .then(res => history.push('/dashboard'))
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }));
+
+};
+
+export const addEducation = (educationData, history) => dispatch => {
+    axios
+        .post('/api/profile/education', educationData)
+        .then(res => history.push('/dashboard'))
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }));
+}
+
+// DELETE Experience
+export const deleteExperience = (experience_id) => dispatch => {
+    axios
+        .delete(`/api/profile/experience/${experience_id}`)
+        .then(res => dispatch({
+            type: GET_PROFILE,
+            payload: res.data  // remeber that after we delete an experience, the user profile is still sent back to us, check the backend API for more
+        }))
+        .catch(err => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data
+    }));
 }

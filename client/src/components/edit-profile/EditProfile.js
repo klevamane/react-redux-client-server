@@ -97,19 +97,19 @@ class CreateProfile extends Component {
 
             this.setState({
                 // Set components field state to fill the forms
-                handle: this.state.handle,
-                company: this.state.company,
-                website: this.state.website,
-                location: this.state.location,
-                status: this.state.status,
-                skills: this.state.skills,
-                githubusername: this.state.githubusername,
-                bio: this.state.bio,
-                twitter: this.state.twitter,
-                facebook: this.state.facebook,
-                youtube: this.state.youtube,
-                linkedin: this.state.linkedin,
-                instagram: this.state.instagram
+                handle: profile.handle,
+                company: profile.company,
+                website: profile.website,
+                location: profile.location,
+                status: profile.status,
+                skills: profile.skills,
+                githubusername: profile.githubusername,
+                bio: profile.bio,
+                twitter: profile.social.twitter,
+                facebook: profile.social.facebook,
+                youtube: profile.social.youtube,
+                linkedin: profile.social.linkedin,
+                instagram: profile.social.instagram
             });
         }
     }
