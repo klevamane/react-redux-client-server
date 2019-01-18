@@ -1,0 +1,319 @@
+    add a proxy to remove http:localhost:3000/
+    so we need to put a proxy value in the client package.json file
+
+    use concurently npm package to run multiple services at once
+    this will enable us run the client and the backend server concurrently
+    but this will be done from the server ie th root package.json (not in client folder)
+
+    add a client script to the server package.json
+ "client-install": "npm install --prefix client" // this will make sure that the npm install is happening in the client folder
+  this can also be done as "cd .. npm install"
+
+"dev2": "concurrently \"npm run server\" \" npm run client\"" // i think we can also do this with parallel / i'd check later
+
+Add bootstrap cdn and bootstrap jquery and javascript CDN links to the index.html in client/src/public
+
+
+install chrome react devtools
+install chrome redux devtools
+
+Install visual studio extension ES7/Reac/Redux/Graphql
+
+copy the static html files and split them to various components
+header, navbar, footer etc
+change class to className
+change <a> tag to <Link> tags
+
+
+install react-router-dom in the client
+ensure to cd into the client to make sure that the npm install occurs in the clients package.json file
+
+cd .. back out to the server / standard devconnector folder
+
+import BrowserRouter as Router // helps in calling it shortner name Router instead of BrowserRouter
+wrap the main div with Router
+use exact in <Route> to go to the exact component instead of every components having the same base path
+
+
+//Let us work on component state management just for show
+// Rmember this has nothing to do with redux, we just want to get this out of the way.
+
+export default class Register extends Component {
+    constructor() {
+        super() {
+            this.state = {
+                name: '',
+                email: '',
+                password: '',
+                password2: '',
+                errors: {}
+            };
+        }
+    }
+  render() {
+    return (
+
+    )
+
+// we set the initial state of the form inputs to '' and also an errors object
+
+set the value of the form input fields to the state
+ie
+<input type="text" value={this.state.email} name="email" type="email/>
+
+// Assign a change event to each form control  eg
+<input type="text" value={this.state.email}
+ name="email" type="email
+ onChange={this.Onchange }/>
+
+ 
+onChange(e) {
+  // This iterates through every form controll where each form control is the event target ie e.target
+  and the value of a particular target at a particular time is e.target.value ie email.value
+        this.setState({ [e.target.name] : e.target.value} );
+    };
+
+// creat a signup method ie edit the onSubmit method to sign up a user with axios.
+
+install and import classnames npm package in the client directory / package.json
+this will help us show getbootstrap error classes
+
+  <input type="text" className={classnames("form-control form-control-lg", {"is-invalid": errors.name })} placeholder="Name" name="name" 
+                  value={this.state.name} onChange={this.onChange} />
+                </div>
+classname // this will make sure that the classes in the parenthesis always work but if there is an
+          // error.name / error.email / error.etc, in essence if there is an error in the 
+          // errors object, then the class is-invalid will be implemented.
+          // note that the "is-invalid" is a bootstrap class that is used to red-highlight an input controller
+we can also show the validation error from the server by indicating it through
+
+                  {errors.name && (<div className="invalid-feedback">{errors.name}</div>)}
+                  or
+                  {errors.name ?(<div className="invalid-feedback"> {errors.name} </div>): ''}
+
+
+// add noValidate to html form to make it not throw client side validation
+
+<form noValidate onSubmit={this.onSubmit}></form>
+
+
+Redux
+install redux-thunk, its apiece of middle that allows you to wait to get result after an ajax request
+    that is dispatched to the reducer
+install reac-redux -  what makes react work with redux
+install redux
+import Provide from react-redux
+wrap the main app component with the provider
+
+
+// Note that in our application we are going to have many reducers,
+authentication reducer
+profile reducer
+error reducer
+now we want to combine this together and there is a method we can use called 
+combine reducer, to passing in all our sub reducer
+
+import createStore, applyMiddleware from redux in the store.js
+import the store as default into the App.js
+
+
+create the root reducer called index.js in the reducer folder
+
+
+// Whenever you are going to user redux in a component,
+// for instance to call the registeruser Action
+// you have to import connect from react-redux library , this is used to basically connect react and redux
+
+// A container is basically a react component that works with Redux
+
+
+// note that we dont always have to dispatch actions
+// somet times we just want to redirect upon success ef of registration if successful redirect to the login page
+// but if there is an error eg from axios in the catch block, then we can dispatch error 
+
+
+
+****************
+WORK FLOW
+****************
+7. Branch 7
+we created an action "registeruser"
+in the actions file we created a type called "TEST_DISPATCH" ; we actually imported the type from the action 
+ types file
+and dispatch the action to the reducer along with its payload, ie payload: userData
+
+inside the reducer we then manipulated the state to include that new reducer 
+then in our component we went ahead to map state to props
+and set auth to props inside our component
+then we grabed the user from the auth props
+const { user } = this.props.auth  // no need for state.auth because we have already mapped it
+
+we displayed it on the page with
+{user ? user.name: null}
+
+
+// In order to display the errors gotten from axios upon unsuccessful registration due to validation errors
+// we pass the errors to the component state using componentWillRecieveProps,
+// the we can test for certain properties in the componentWillRecieveProps. 
+// Remeber componentWillRecieveProps takes in nextProps as its argument
+// ie to say if their is an error or errors the the reducer will send the object to the component and the component
+// will recieve the errors but only when the life cycle method checks to see if a props was recieved 
+// then will it set the component own state which in turn will be displayed or used by the component
+// if you use the chrome redux inspect to check you will see that the erros are also in the application state
+
+
+**************** Routing within AN ACTION ************
+
+//import { withRouter } from 'react-router-dom'; // use withrouter to route from within an action
+  // we add this.props.history here so it can be accessed within the register action
+        this.props.registeruser(newUser, this.props.history)
+
+// we wrap the register component with withRouter 
+export default connect(mapStateToProps, { registeruser })(withRouter(Register));
+
+
+// we add history as a paramity in the action
+// authAction.js // this is with the registeruser action
+ .then(res => history.push('/login')) // using history here beause we have already implemented it in the register component
+//
+
+
+// login
+
+
+
+
+
+in login component
+// import proptypes
+// import connect from reacr redux
+// import the loginUser action from /actions/authAction
+
+then export connect
+
+
+
+
+
+
+
+
+// Logout
+set the logout in the navbar component
+
+export a const called logout user with no parameters and also use dispatch
+- first remove the token from localstorage
+-localstroage.removeItem('jwtToken);
+-setAuthToke and pass in false ie setAuthToken(false)
+- Remember to always import the action into the comoponent to use it
+- eg import the Logout action into the navigation component
+
+Based on whether a user is registered or not registered, the navigation bar links will change
+so what we have to do is go to the Navbar component
+inside the render but not in the return
+get from the auth props (actually it is auth state, but remember that we mapStateToProps)
+get the { isAuthenticated, user } = this.props.auth
+create 2 variables authLinks and guestLinks
+depending on whether the user is loggedIn or not the user will see authLinks or guestLinks
+
+save the same part of the Navbar link in both authLinks and guestLinks variable
+now update the authLinks to have guest feeds, dashboard, and logout
+use an a tag and give it #, because its not actually going to go anywhere its just going to call a click handle
+we would use a ternary operator (condition) to check if the user is loggedin, ei if isAuthenticated = true,
+if then display authLinks, else display guestLinks
+
+we add the OnLogOutClick handle/function which will in turn call our LogOut action dispatched by the
+  reducer to the OnClick event. and make the <a> tag href=#
+    onClick={this.onLogoutClick.bind(this)}
+    though we dont have a constructor in our class, so we'd just bind it here
+    remember that as of the lates react, there is no need to add constructor,
+    but we are still using the old fashion way, and change if we like
+
+// remember to use the user variable as a source in an/the image tag to generate avatar
+else react will complain that user was assigned but never used
+
+// in react u can add inline style like this style={{ marginRight: '5px}} // make use of camelCase instead of
+
+     
+
+
+***********
+COMMONS
+**********
+lets create common component
+create common form components in the components/COMMONS
+then import then when needed
+in the tutorial the form inputs in register and login components where replaced with the COMMONS
+
+
+
+*****************
+profile PROFILE
+****************
+
+create profile reducer file in reducer folder reducer/profileReducer.js
+import the profileReducer into the reducers/index.js
+// remember that all reducers are combined here
+in the profile reducer, just like every other reducer, create an initial state
+
+// add action types to be used in profile in action/types
+// create profileActions.js in actions
+// add an action to get the current user's profile
+
+        getCurrentProfile = () => dispatch => {
+            
+        }
+
+
+export const getCurrentProfile = () => dispatch => {
+    dispatch(setProfileLoding());
+    axios.get('/api/profile')
+        .then(res => dispatch({
+            type: GET_PROFILE,
+            payload: res.data
+        }))
+        .catch(error => dispatch({
+            type: GET_PROFILE, //GET_ERRORS,  the reason why we aren't using get errors is because a profile can be null
+                                // ie empy, so if a profile is empty, we just have to show a small button to tell 
+                                // the user to create a new profile
+            payload: {} // so if there isn't any profile, we just have to return an empty object as the profile, because the
+                        // user hasn't created one
+                        // The reason is because you can register and not have a profile
+        }))
+}
+
+
+
+
+// Goto the profile reducer
+// import our required types
+
+// create a dashboard component
+
+// got to App.js and add Dashboard as a route
+
+
+
+
+**************************
+
+PRIVATE Route
+************************
+
+Create a new component in the common folder
+called PrivateRoute.js // make it a functional component
+
+create a privateRoute component
+change the route that in App.js or where ever we want to make a route private from
+<Route
+to
+<PrivateRoute
+
+import the PrivateRoute
+
+Wrap PrivateRoute with Switch tags
+
+<Switch> allows us to properly redirect when we log out 
+
+
+// Any time the page reloads know that the prevent default is not set or used
